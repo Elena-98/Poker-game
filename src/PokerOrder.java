@@ -5,6 +5,7 @@ public class PokerOrder {
     private static final String VALUES = "23456789TJQKA";
     private static final String SUITS = "DHSC";
     private String[] cards;
+    private int rank = 1;
     public PokerOrder (String[] cards){
         this.cards = cards;
 
@@ -12,7 +13,7 @@ public class PokerOrder {
 //    4H 4C 6S 7S KD
     private void combination(){
         List<Integer> values = new ArrayList<>();
-        List<Character> suits = new ArrayList<>();
+        Set<Character> suits = new HashSet<>();
         int value;
 
         for (String card : cards){
@@ -33,13 +34,42 @@ public class PokerOrder {
         }
         Collections.sort(values);
         boolean consecutive = beConsecutive(values);
-        Iterable<Integer> counts = valueCounts(values);
+        Collection<Integer> counts = valueCounts(values);
 
-
-
-
-
-
+        if (consecutive){
+//            the same suit
+            if (suits.size()==1){
+                if (values.get(0)==10){
+                    rank = 10;
+                }else{
+                    rank =9;
+                }
+            }else{
+                rank = 5;
+            }
+        }else{
+            if (counts.contains(4)){
+                rank = 8;
+            }else if(counts.contains(3)){
+                if (counts.contains(2)){
+                    rank = 7;
+                }else{
+                    rank = 4;
+                }
+            }else if(counts.contains(2)){
+                int pairCount = 0;
+                for (int count: counts){
+                    if (count==2){
+                        pairCount++;
+                    }
+                }
+                if (pairCount==2){
+                    rank = 3;
+                }else{
+                    rank=2;
+                }
+            }
+        }
 
 
     }
@@ -54,7 +84,7 @@ public class PokerOrder {
         return true;
     }
 
-    private Iterable<Integer> valueCounts(List<Integer> values){
+    private Collection<Integer> valueCounts(List<Integer> values){
         Map<Integer,Integer> counts = new HashMap<>();
         for (int value : values){
             if(counts.containsKey(value)){
