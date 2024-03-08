@@ -2,9 +2,9 @@ import java.util.*;
 
 public class PokerOrder {
 
-    private static final String VALUES = "23456789TJQKA";
-    private static final String SUITS = "DHSC";
     private String[] cards;
+    private List<Integer> values = new ArrayList<>();
+    private Map<Integer,Integer> counts = new HashMap<>();
     private int rank = 1;
     public PokerOrder (String[] cards){
         this.cards = cards;
@@ -12,7 +12,7 @@ public class PokerOrder {
     }
 //    4H 4C 6S 7S KD
     private void combination(){
-        List<Integer> values = new ArrayList<>();
+
         Set<Character> suits = new HashSet<>();
         int value;
 
@@ -26,15 +26,15 @@ public class PokerOrder {
                     case 'J': value = 11; break;
                     case 'Q': value = 12; break;
                     case 'K': value = 13; break;
-                    default: throw new IllegalArgumentException("Unknown card value: " + valueChar);
+                    default: throw new IllegalArgumentException("Unknown card value: " + card.charAt(0));
                 }
             }
             values.add(value);
             suits.add(card.charAt(1));
         }
         Collections.sort(values);
-        boolean consecutive = beConsecutive(values);
-        Collection<Integer> counts = valueCounts(values);
+        boolean consecutive = beConsecutive();
+        Collection<Integer> counts = valueCounts();
 
         if (consecutive){
 //            the same suit
@@ -74,7 +74,7 @@ public class PokerOrder {
 
     }
 
-    private boolean beConsecutive(List<Integer> values){
+    private boolean beConsecutive(){
 
         for (int i = 0; i < values.size()-1; i++){
             if (values.get(i)+1 != values.get(i+1)){
@@ -84,8 +84,8 @@ public class PokerOrder {
         return true;
     }
 
-    private Collection<Integer> valueCounts(List<Integer> values){
-        Map<Integer,Integer> counts = new HashMap<>();
+    private Collection<Integer> valueCounts(){
+
         for (int value : values){
             if(counts.containsKey(value)){
                 counts.put(value,counts.get(value)+1);
@@ -95,5 +95,52 @@ public class PokerOrder {
         }
         return counts.values();
     }
+
+    public int[] getRank(){
+        switch (rank){
+            case 10: return new int[]{10};
+            case 9: return new int[]{9,values.get(0)};
+            case 8:
+                if (counts.get(values.get(0))==4){
+                    return new int[]{8,values.get(0)};
+                }else{
+                    return new int[]{8,values.get(1)};
+                }
+//            three of a kind, pair
+            case 7:
+                if (counts.get(values.get(0))==3){
+                    return new int[]{7,values.get(0),values.get(3)};
+                }else{
+                    return new int[]{7,values.get(2),values.get(0)};
+                }
+//            To do: update later in reverse order
+            case 6: return new int[]{6,values};
+            case 5: return new int[]{5,values.get(0)};
+//            three same value, one, one
+            case 4:
+                if (counts.get(values.get(0))==3){
+                    return new int[]{4,values.get(0),values.get(4),values.get(3)};
+                }else if (counts.get(values.get(1))==3){
+                    return new int[]{4,values.get(1),values.get(4),values.get(0)};
+                }else{
+                    return new int[]{4,values.get(2),values.get(1),values.get(0)};
+                }
+//            pair,pair,one
+            case 3:
+                if (counts.get(values.get(0))==2){
+                    if (counts.get(values.get(2))==2){
+                        return new int[]{3,values.get(2),values.get(0),values.get(4)};
+                    }else{
+                        return new int[]{3,values.get(4),values.get(0),values.get(2)};
+                    }
+
+                }else{
+                    return new int[]{3,values.get(4),values.get(1),values.get(0)};
+                }
+//            To do: values, reverse the order
+            case 2: return new int[]{2,values};
+        }
+    }
+
 
 }
