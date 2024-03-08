@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class PokerOrder {
 
@@ -36,6 +33,9 @@ public class PokerOrder {
         }
         Collections.sort(values);
         boolean consecutive = beConsecutive(values);
+        Iterable<Integer> counts = valueCounts(values);
+
+
 
 
 
@@ -54,6 +54,16 @@ public class PokerOrder {
         return true;
     }
 
-    private boolean beSameValue(){}
+    private Iterable<Integer> valueCounts(List<Integer> values){
+        Map<Integer,Integer> counts = new HashMap<>();
+        for (int value : values){
+            if(counts.containsKey(value)){
+                counts.put(value,counts.get(value)+1);
+            }else{
+                counts.put(value,1);
+            }
+        }
+        return counts.values();
+    }
 
 }
