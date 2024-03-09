@@ -148,12 +148,25 @@ public class PokerOrder {
     }
 
     private int[] reverseValues(){
-        int[] reverse = new int[6];
-        reverse[0] = rank;
-        for (int i=0;i<5;i++){
-            reverse[i+1] = values.get(i);
+        int[] reverse;
+        switch (rank){
+            case 1:
+            case 6:
+                reverse= new int[6];
+                reverse[0] = rank;
+                for (int i=0;i<5;i++){
+                    reverse[i+1] = values.get(4-i);
+                }
+                return reverse;
+//          To do: return pair value, reverse order
+            case 2:
+                reverse= new int[5];
+                return new int[]{2};
+
         }
-        return reverse;
+
+
+        return new int[0];
     }
 
 
