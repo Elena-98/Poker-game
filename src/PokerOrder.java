@@ -114,7 +114,7 @@ public class PokerOrder {
                     return new int[]{7,values.get(2),values.get(0)};
                 }
 //            To do: update later in reverse order
-            case 6: return new int[]{6,values};
+            case 6: return reverseValues();
             case 5: return new int[]{5,values.get(0)};
 //            three same value, one, one
             case 4:
@@ -138,8 +138,22 @@ public class PokerOrder {
                     return new int[]{3,values.get(4),values.get(1),values.get(0)};
                 }
 //            To do: values, reverse the order
-            case 2: return new int[]{2,values};
+            case 2:
+                return reverseValues();
+            case 1:
+                return reverseValues();
         }
+
+        return new int[0];
+    }
+
+    private int[] reverseValues(){
+        int[] reverse = new int[6];
+        reverse[0] = rank;
+        for (int i=0;i<5;i++){
+            reverse[i+1] = values.get(i);
+        }
+        return reverse;
     }
 
 
