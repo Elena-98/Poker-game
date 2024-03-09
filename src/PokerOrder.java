@@ -2,13 +2,13 @@ import java.util.*;
 
 public class PokerOrder {
 
-    private String[] cards;
+    private List<String> cards;
     private List<Integer> values = new ArrayList<>();
     private Map<Integer,Integer> counts = new HashMap<>();
     private int rank = 1;
-    public PokerOrder (String[] cards){
+    public PokerOrder (List<String> cards){
         this.cards = cards;
-
+        combination();
     }
 //    4H 4C 6S 7S KD
     private void combination(){
