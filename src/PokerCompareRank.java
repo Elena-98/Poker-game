@@ -38,8 +38,8 @@ public class PokerCompareRank {
         } catch (IOException e) {
             System.err.println("Failed to read file: " + e.getMessage());
         }
-        System.out.println("wins:"+wins1);
-        System.out.println("wins:"+wins2);
+        System.out.println("Player1 wins:"+wins1);
+        System.out.println("Player2 wins:"+wins2);
     }
 
     public PokerCompareRank(int[] player1Result, int[] player2Result){
