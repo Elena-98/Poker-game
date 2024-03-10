@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-public class PokerRank {
+public class PokerCompareRank {
     private static int wins1 = 0;
     private static int wins2 = 0;
     public static void main (String[] args) throws FileNotFoundException {
@@ -24,7 +24,7 @@ public class PokerRank {
                 int[] player1Result = player1.getRank();
                 int[] player2Result = player2.getRank();
 
-                PokerRank a = new PokerRank(player1Result,player2Result);
+                PokerCompareRank a = new PokerCompareRank(player1Result,player2Result);
 
             }
 
@@ -35,7 +35,7 @@ public class PokerRank {
         System.out.println("wins:"+wins2);
     }
 
-    public PokerRank(int[] player1Result,int[] player2Result){
+    public PokerCompareRank(int[] player1Result, int[] player2Result){
         compareRank(player1Result,player2Result);
 
     }
