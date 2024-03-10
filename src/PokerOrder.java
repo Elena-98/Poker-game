@@ -2,13 +2,13 @@ import java.util.*;
 
 public class PokerOrder {
 
-    private String[] cards;
+    private List<String> cards;
     private List<Integer> values = new ArrayList<>();
     private Map<Integer,Integer> counts = new HashMap<>();
     private int rank = 1;
-    public PokerOrder (String[] cards){
+    public PokerOrder (List<String> cards){
         this.cards = cards;
-
+        combination();
     }
 //    4H 4C 6S 7S KD
     private void combination(){
@@ -50,6 +50,8 @@ public class PokerOrder {
         }else{
             if (counts.contains(4)){
                 rank = 8;
+            }else if(suits.size()==1){
+                rank = 6;
             }else if(counts.contains(3)){
                 if (counts.contains(2)){
                     rank = 7;
@@ -148,12 +150,39 @@ public class PokerOrder {
     }
 
     private int[] reverseValues(){
-        int[] reverse = new int[6];
-        reverse[0] = rank;
-        for (int i=0;i<5;i++){
-            reverse[i+1] = values.get(i);
+        int[] reverse;
+        switch (rank){
+            case 1:
+            case 6:
+                reverse= new int[6];
+                reverse[0] = rank;
+                for (int i=0;i<5;i++){
+                    reverse[i+1] = values.get(4-i);
+                }
+                return reverse;
+//          To do: return pair value, reverse order
+            case 2:
+                reverse= new int[5];
+//                reverse[0] = rank;
+//                for (int i=0;i<4;i++){
+//                    if (values.get(i) == values.get(i+1)){
+//                        reverse[1] = values.get(i);
+//                    }
+//                }
+                if (counts.get(values.get(0))==2){
+                    return new int[]{2,values.get(0),values.get(4),values.get(3),values.get(2)};
+                }else if(counts.get(values.get(1))==2){
+                    return new int[]{2,values.get(1),values.get(4),values.get(3),values.get(0)};
+                }else if(counts.get(values.get(2))==2){
+                    return new int[]{2,values.get(2),values.get(4),values.get(1),values.get(0)};
+                }else if(counts.get(values.get(3))==2){
+                    return new int[]{2,values.get(3),values.get(2),values.get(1),values.get(0)};
+                }
+
+                return reverse;
+
         }
-        return reverse;
+        return new int[0];
     }
 
 
