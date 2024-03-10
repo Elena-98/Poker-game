@@ -12,7 +12,7 @@ public class PokerCompareRank {
         String filePath;
         if (args.length < 1){
             filePath = "src/poker-hands.txt";
-            //        filePath = "src/poker-hands-testing.txt";
+            //        filePath = "poker-hands-testing.txt";
         }else{
             filePath = args[0];
         }
