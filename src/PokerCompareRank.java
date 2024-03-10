@@ -8,9 +8,16 @@ import java.util.List;
 public class PokerCompareRank {
     private static int wins1 = 0;
     private static int wins2 = 0;
-    public static void main (String[] args) throws FileNotFoundException {
-//        String filePath = "src/poker-hands-testing.txt";
-        String filePath = "src/poker-hands.txt";
+    public static void main (String[] args) {
+        String filePath;
+        if (args.length < 1){
+            filePath = "src/poker-hands.txt";
+            //        filePath = "src/poker-hands-testing.txt";
+        }else{
+            filePath = args[0];
+        }
+
+
         try(BufferedReader reader = new BufferedReader(new FileReader(filePath))){
             String line;
             while ((line = reader.readLine()) != null){
